@@ -1,0 +1,38 @@
+<div fxLayout="row wrap" fxLayoutAlign="center start" fxLayoutGap="16px" style="padding:16px">
+    <mat-card fxFlex="nogrow">
+        <mat-card-content>
+            <div class="card-header" fxLayout="row" fxLayoutAlign="center center" [ngStyle]="{'background-color': authmenu.iconColor}">
+                <div fxLayout="row" fxLayoutAlign="center center" class="card-header-icon">
+                    <img mat-card-avatar src="./assets/images/modules/{{authmenu.iconImage}}" alt="ไอคอน">
+                </div>
+                <div fxFlex>{{authmenu.name}}</div>
+            </div>
+            <mat-tab-group (selectedTabChange)="getId($event)">
+                <div *ngFor="let item of submenu">
+                    <mat-tab label="{{item.authority.name}}">
+                        <mat-action-list *ngFor="let item2 of listmenu">
+                            <button mat-list-item (click)="navigate(item2.authority.linkURL)">
+                            <i class="ti-{{item2.authority.iconImage}}" style="margin-right: 16px"></i>{{item2.authority.name}}
+                        </button>
+                        </mat-action-list>
+                    </mat-tab>
+                </div>
+
+                <!-- <mat-tab label="ตรวจสอบ/ค้นหา">
+                    <mat-action-list *ngFor="let item of module.search">
+                        <button mat-list-item (click)="navigate(item)">
+                            <i class="{{item.icon}}" style="margin-right: 16px"></i>{{item.name}}
+                        </button>
+                    </mat-action-list>
+                </mat-tab>
+                <mat-tab label="รายงาน">
+                    <mat-action-list *ngFor="let item of module.report">
+                        <button mat-list-item (click)="navigate(item)">
+                            <i class="{{item.icon}}" style="margin-right: 16px"></i>{{item.name}}
+                        </button>
+                    </mat-action-list>
+                </mat-tab> -->
+            </mat-tab-group>
+        </mat-card-content>
+    </mat-card>
+</div>
