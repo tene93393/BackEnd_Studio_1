@@ -1,0 +1,152 @@
+<div fxLayout="column"  style="height:100%">
+    <!-- MENU HERE -->
+
+    <div fxFlex style="overflow: auto">
+
+        <mat-toolbar>
+
+            <mat-toolbar-row>
+
+                <i class="ti-save"  style="margin-right: 16px"></i>
+                    <span>การตั้งค่าระบบ</span>
+            </mat-toolbar-row>
+
+        </mat-toolbar>
+
+        <div fxLayout="column"  fxLayoutAlign="start start"  fxLayoutGap="16px"  style="padding: 8px">
+
+            <mat-card style="width: 100%">
+
+
+                <form fxLayout="row wrap"  fxLayoutAlign="start center" #myForm="ngForm">
+
+
+                    <!-- INPUT HERE -->
+
+                    <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.gt-md="50" fxLayout="row wrap" fxLayoutAlign="start center">
+                        <mat-form-field fxFlex="20" class="pad-input number-input">
+                            <input matInput placeholder="รหัส" name="courtcode" [(ngModel)]="courtcode">
+                        </mat-form-field>
+                        <mat-form-field fxFlex class="pad-input number-input">
+                            <input matInput placeholder="ศาล" name="courtname" [(ngModel)]="courtname">
+                        </mat-form-field>
+                        <button color="accent" mat-icon-button="ศาล" (click)="courtopen()">
+                            <i class="ti-agenda"></i>
+                            </button>
+                    </div>
+
+                    <mat-form-field fxFlex="100" fxFlex="20" fxFlex.gt-md="25" class="pad-input number-input">
+                        <input matInput placeholder="ค่า parameter ของระบบ" name="value" [(ngModel)]="ParamModel.value">
+                    </mat-form-field>
+                    <mat-form-field fxFlex="100" fxFlex="20" fxFlex.gt-md="25" fxFlex class="pad-input number-input">
+                        <input matInput placeholder="ชื่อ parameter ของระบบ" name="name " [(ngModel)]="ParamModel.name">
+                    </mat-form-field>
+                    <!-- <button color="accent" mat-icon-button="parameter ของระบบ" (click)="Paramopen()">
+                        <i class="ti-agenda"></i>
+                        </button> -->
+
+
+
+                    <mat-form-field fxFlex="100" fxFlex.gt-sm="100" fxFlex.gt-md="25" class="pad-input number-input">
+                        <input matInput placeholder="รหัสแก้ไขได้" name="selectCode" [(ngModel)]="ParamModel.selectCode">
+                    </mat-form-field>
+
+
+                    <mat-checkbox value=1>ใช้งาน</mat-checkbox>
+
+
+                        <!-- <mat-radio-group fxFlex="100"  fxFlex.gt-sm="100"  fxFlex.gt-md="10" fxLayout="row" fxLayoutAlign="start center"  class="pad-choice"  fxLayoutGap="16px" name="activeFlag" [(ngModel)]="AppointAlertModel.activeFlag">
+                        <span>การใช้งาน</span>
+                        <mat-radio-button value=1>ใช้งาน</mat-radio-button>
+
+                            </mat-radio-group> -->
+
+
+
+
+                </form>
+
+
+                <mat-card-actions align="end"  fxLayoutGap="8px">
+
+
+                    <button mat-flat-button color="primary" *ngIf="mode == 'search'" (click)="changeToTranMode()">เพิ่ม</button>
+                        <button mat-flat-button color="accent" *ngIf="id == 0 && mode == 'transaction'" (click)="save()" [disabled]="!myForm.valid">จัดเก็บ</button>
+                            <button mat-flat-button color="accent" *ngIf="id != 0 && mode == 'transaction'" (click)="edit()" [disabled]="!myForm.valid">แก้ไข</button>
+                                <button mat-flat-button color="accent" (click)="search()">ค้นหา</button>
+                                    <button mat-flat-button class="normal-button" (click)="delete()">ล้าง</button>
+
+
+                                        </mat-card-actions>
+
+                                        </mat-card>
+
+
+
+                                        <mat-card style="width: 100%" [ngClass]="{'hidden': mode=='transaction'}">
+
+                                            <mat-card-header>
+
+                                                <mat-card-title>รายการ</mat-card-title>
+                                            </mat-card-header>
+
+                                            <mat-card-content>
+                                                <div style="width:100%;height: 400px;overflow:auto">
+                                                    <table mat-table [dataSource]="dataSource" matSort style="width: 100%">
+                                                        <!-- Checkbox Column -->
+
+                                                        <ng-container matColumnDef="Checkbox" stickyEnd>
+                                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>การใช้งาน</th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                <mat-checkbox>ใช้งาน</mat-checkbox>
+                                                        </ng-container>
+
+
+                                                        <!-- Position Column -->
+
+
+                                                        <ng-container matColumnDef="value">
+                                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>ค่า parameter ของระบบ</th>
+                                                            <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+                                                        </ng-container>
+
+
+                                                        <ng-container matColumnDef="name">
+                                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>ชื่อ parameter ของระบบ</th>
+                                                            <td mat-cell *matCellDef="let element">{{element.name}} </td>
+                                                        </ng-container>
+
+
+                                                        <ng-container matColumnDef="selectCode">
+                                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>รหัสแก้ไขได้</th>
+                                                            <td mat-cell *matCellDef="let element"> {{element.selectCode}} </td>
+                                                        </ng-container>
+
+                                                        <!-- Star Column -->
+                                                        <ng-container matColumnDef="star" stickyEnd>
+                                                            <th mat-header-cell *matHeaderCellDef></th>
+                                                            <td mat-cell *matCellDef="let element">
+                                                                <button color="accent" mat-icon-button (click)="editElementTable(element)"><i class="ti-pencil"></i></button>
+                                                                    <button color="accent" mat-icon-button="ลบ" (click)="deleteElementTable(element)"><i class="ti-trash"></i></button>
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></tr>
+                                                    </table>
+                                                </div>
+                                                <mat-paginator style="width: 100%" [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50, 75, 100, 200, 300, 400, 500, 700,  800, 900,1000]" showFirstLastButtons>
+                                                </mat-paginator>
+                                                <!-- FORM HERE -->
+                                            </mat-card-content>
+
+                                            <mat-card-actions align="end"  fxLayoutGap="8px">
+
+                                                </mat-card-actions>
+                                                </mat-card>
+
+
+
+                                                </div>
+
+                                                </div>
