@@ -1,0 +1,13 @@
+<div class="grid-container">
+    <mat-card *ngFor="let item of modules" class="hover" [routerLink]="['/', 'main', item.route]">
+        <mat-card-header align="center">
+            <img mat-card-avatar src="./assets/images/modules/{{item.icon}}.svg" alt="ไอคอน" style="border-radius: 0">
+            <mat-card-title>{{item.name}}</mat-card-title>
+        </mat-card-header>
+
+        <!-- <mat-card-actions align="end" >
+            <button mat-button  ></button><em class="ti-shift-right" style="margin-right: 8px"></em>เข้าระบบงาน</button> 
+            <button mat-button><em class="ti-settings" style="margin-right: 8px"></em>ตั้งค่า</button> 
+        </mat-card-actions> -->
+    </mat-card>
+</div>
